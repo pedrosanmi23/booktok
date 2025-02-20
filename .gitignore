@@ -1,0 +1,12 @@
+# Dependencias de Node.js
+node_modules/
+package-lock.json
+
+# Archivos de configuración sensibles
+server/.env
+client/.env
+
+# Archivos del editor
+.vscode/
+.idea/
+.DS_Store
