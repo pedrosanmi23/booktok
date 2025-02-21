@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Ruta protegida: Crear un nuevo libro
-app.post('/books', authMiddleware, (req, res) => {
+router.post('/books', authMiddleware, (req, res) => {
     const { title, author, cover } = req.body;
 
     if (!title || !author) {
@@ -29,7 +29,7 @@ app.post('/books', authMiddleware, (req, res) => {
 });
 
 // Obtener todos los libros
-app.get('/books', (req, res) => {
+router.get('/books', (req, res) => {
     db.query('SELECT * FROM books ORDER BY created_at DESC', (err, results) => {
         if (err) return res.status(500).json({ error: 'Error al obtener los libros' });
 
@@ -38,7 +38,7 @@ app.get('/books', (req, res) => {
 });
 
 // Obtener un libro por su ID
-app.get('/books/:id', (req, res) => {
+router.get('/books/:id', (req, res) => {
     const bookId = req.params.id;
 
     db.query('SELECT * FROM books WHERE id = ?', [bookId], (err, results) => {
@@ -53,7 +53,7 @@ app.get('/books/:id', (req, res) => {
 });
 
 // Buscar libros por título o autor
-app.get('/books/search/:query', (req, res) => {
+router.get('/books/search/:query', (req, res) => {
     const searchQuery = `%${req.params.query}%`;
 
     db.query(
@@ -68,7 +68,7 @@ app.get('/books/search/:query', (req, res) => {
 });
 
 // Obtener libros más populares (más agregados a bibliotecas)
-app.get('/books/popular', (req, res) => {
+router.get('/books/popular', (req, res) => {
     db.query(
         `SELECT books.id, books.title, books.author, books.cover, COUNT(library.id) AS added_count
          FROM books
@@ -85,7 +85,7 @@ app.get('/books/popular', (req, res) => {
 });
 
 // Sugerir libros basados en la biblioteca del usuario autenticado
-app.get('/books/suggestions', authMiddleware, (req, res) => {
+router.get('/books/suggestions', authMiddleware, (req, res) => {
     db.query(
         `SELECT DISTINCT b.id, b.title, b.author, b.cover
          FROM books b
@@ -105,7 +105,7 @@ app.get('/books/suggestions', authMiddleware, (req, res) => {
 });
 
 // Obtener los libros más recientes
-app.get('/books/recent', (req, res) => {
+router.get('/books/recent', (req, res) => {
     db.query(
         `SELECT * FROM books ORDER BY created_at DESC LIMIT 10`,
         (err, results) => {

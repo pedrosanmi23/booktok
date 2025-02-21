@@ -12,7 +12,7 @@ app.use(cors());
 
 
 // Ruta protegida: Agregar un libro a la biblioteca personal
-app.post('/library', authMiddleware, (req, res) => {
+router.post('/library', authMiddleware, (req, res) => {
     const { book_id, status } = req.body;
 
     if (!book_id) {
@@ -42,7 +42,7 @@ app.post('/library', authMiddleware, (req, res) => {
 });
 
 // Ruta protegida: Obtener la biblioteca personal del usuario autenticado
-app.get('/library', authMiddleware, (req, res) => {
+router.get('/library', authMiddleware, (req, res) => {
     db.query(
         `SELECT library.id, books.title, books.author, books.cover, library.status, library.created_at 
          FROM library 
@@ -59,7 +59,7 @@ app.get('/library', authMiddleware, (req, res) => {
 });
 
 // Ruta protegida: Actualizar el estado de un libro en la biblioteca
-app.put('/library/:id', authMiddleware, (req, res) => {
+router.put('/library/:id', authMiddleware, (req, res) => {
     const libraryId = req.params.id;
     const { status } = req.body;
 
@@ -85,7 +85,7 @@ app.put('/library/:id', authMiddleware, (req, res) => {
 });
 
 // Ruta protegida: Eliminar un libro de la biblioteca
-app.delete('/library/:id', authMiddleware, (req, res) => {
+router.delete('/library/:id', authMiddleware, (req, res) => {
     const libraryId = req.params.id;
 
     // Verificar que el usuario es dueño del libro en la biblioteca

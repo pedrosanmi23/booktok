@@ -12,7 +12,7 @@ app.use(cors());
 
 
 // Ruta protegida: Dar o quitar "me gusta" a una publicación
-app.post('/likes', authMiddleware, (req, res) => {
+router.post('/likes', authMiddleware, (req, res) => {
     const { post_id } = req.body;
 
     if (!post_id) {
@@ -42,7 +42,7 @@ app.post('/likes', authMiddleware, (req, res) => {
 });
 
 // Obtener el número de "me gusta" de una publicación
-app.get('/likes/:post_id', (req, res) => {
+router.get('/likes/:post_id', (req, res) => {
     const postId = req.params.post_id;
 
     db.query('SELECT COUNT(*) AS total_likes FROM likes WHERE post_id = ?', [postId], (err, results) => {
@@ -53,7 +53,7 @@ app.get('/likes/:post_id', (req, res) => {
 });
 
 // Verificar si el usuario autenticado ha dado "me gusta" a una publicación (PARA EN EL FRONT MOSTRAR EL BOTON DE ME GUSTA ACTIVADO O NO)
-app.get('/likes/:post_id/check', authMiddleware, (req, res) => {
+router.get('/likes/:post_id/check', authMiddleware, (req, res) => {
     const postId = req.params.post_id;
 
     db.query('SELECT * FROM likes WHERE user_id = ? AND post_id = ?', [req.user.id, postId], (err, results) => {

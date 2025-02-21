@@ -12,7 +12,7 @@ app.use(cors());
 
 
 // Ruta protegida: Agregar un comentario a una publicación
-app.post('/comments', authMiddleware, (req, res) => {
+router.post('/comments', authMiddleware, (req, res) => {
     const { post_id, content } = req.body;
 
     if (!post_id || !content) {
@@ -30,7 +30,7 @@ app.post('/comments', authMiddleware, (req, res) => {
 });
 
 // Obtener los comentarios de una publicación
-app.get('/comments/:post_id', (req, res) => {
+router.get('/comments/:post_id', (req, res) => {
     const postId = req.params.post_id;
 
     db.query(
@@ -49,7 +49,7 @@ app.get('/comments/:post_id', (req, res) => {
 });
 
 // Ruta protegida: Eliminar un comentario (solo el dueño puede hacerlo)
-app.delete('/comments/:id', authMiddleware, (req, res) => {
+router.delete('/comments/:id', authMiddleware, (req, res) => {
     const commentId = req.params.id;
 
     // Verificar que el usuario es el dueño del comentario

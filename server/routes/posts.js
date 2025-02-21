@@ -12,7 +12,7 @@ app.use(cors());
 
 
 // Ruta protegida: Crear una publicación
-app.post('/posts', authMiddleware, (req, res) => {
+router.post('/posts', authMiddleware, (req, res) => {
     const { content } = req.body;
 
     if (!content) {
@@ -29,7 +29,7 @@ app.post('/posts', authMiddleware, (req, res) => {
 });
 
 // Ruta protegida: Editar una publicación (solo el dueño puede hacerlo)
-app.put('/posts/:id', authMiddleware, (req, res) => {
+router.put('/posts/:id', authMiddleware, (req, res) => {
     const postId = req.params.id;
     const { content } = req.body;
 
@@ -55,7 +55,7 @@ app.put('/posts/:id', authMiddleware, (req, res) => {
 });
 
 // Ruta protegida: Eliminar una publicación (solo el dueño puede hacerlo)
-app.delete('/posts/:id', authMiddleware, (req, res) => {
+router.delete('/posts/:id', authMiddleware, (req, res) => {
     const postId = req.params.id;
 
     // Verificar que el usuario es el dueño de la publicación

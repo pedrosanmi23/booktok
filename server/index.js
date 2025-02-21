@@ -10,12 +10,13 @@ app.use(express.json());
 app.use(cors());
 
 // Importar rutas
-app.use('/users', require('./routes/users'));
-app.use('/posts', require('./routes/posts'));
-app.use('/comments', require('./routes/comments'));
-app.use('/likes', require('./routes/likes'));
-app.use('/books', require('./routes/books'));
-app.use('/library', require('./routes/library'));
+app.use('/', require('./routes/users'));
+app.use('/', require('./routes/login'));
+app.use('/', require('./routes/posts'));
+app.use('/', require('./routes/comments'));
+app.use('/', require('./routes/likes'));
+app.use('/', require('./routes/books'));
+app.use('/', require('./routes/library'));
 
 // Ruta principal
 app.get('/', (req, res) => {
